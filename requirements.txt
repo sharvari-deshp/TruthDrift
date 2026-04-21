@@ -1,1 +1,6 @@
-datasets
+scikit-learn
+numpy
+pandas
+sentence-transformers
+matplotlib
+seaborn
