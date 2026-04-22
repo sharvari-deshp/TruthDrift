@@ -1,6 +1,5 @@
-scikit-learn
 numpy
-pandas
-sentence-transformers
+scikit-learn
+scipy
 matplotlib
-seaborn
+streamlit

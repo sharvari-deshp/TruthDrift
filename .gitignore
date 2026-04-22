@@ -1,8 +1,13 @@
 # Model artifacts
 *.pkl
 
-# Dataset files
-Datasets/
+# Ignore generated graphs
+*.png
+
+# Ignore large dataset artifacts but allow jsonl files
+Datasets/*
+!Datasets/*.jsonl
+!Datasets/.gitkeep
 
 # GloVe embeddings
 Datasets/glove.6B.50d.txt
