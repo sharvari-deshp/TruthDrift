@@ -1,5 +1,6 @@
 #TruthDrift: An ML model designed to detect hallucinations within AI generated text!
 import json
+import pickle
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -211,3 +212,44 @@ y_pred = (y_probs > 0.4).astype(int)
 #print out statisitcs/results to compare best features
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("F1:", f1_score(y_test, y_pred))
+
+#save for UI
+pickle.dump(clf, open("model.pkl", "wb"))
+pickle.dump(vectorizer, open("vectorizer.pkl", "wb"))
+pickle.dump(scaler_j, open("scaler_j.pkl", "wb"))
+pickle.dump(scaler_c, open("scaler_c.pkl", "wb"))
+pickle.dump(scaler_g, open("scaler_g.pkl", "wb"))
+
+pickle.dump(supports_tokens, open("supports_tokens.pkl", "wb"))
+pickle.dump(refutes_tokens, open("refutes_tokens.pkl", "wb"))
+
+pickle.dump(supports_centroid, open("supports_centroid.pkl", "wb"))
+pickle.dump(refutes_centroid, open("refutes_centroid.pkl", "wb"))
+
+pickle.dump(supports_centroid_g, open("supports_centroid_g.pkl", "wb"))
+pickle.dump(refutes_centroid_g, open("refutes_centroid_g.pkl", "wb"))
+
+pickle.dump(glove, open("glove.pkl", "wb"))
+
+print("Saved everything for UI")
+
+
+#PREDICTION FUNCTION FOR UI TO USE
+def predict_text(sentences):
+    X = vectorizer.transform(sentences)
+
+    j = compute_jaccard_features(sentences)
+    j = scaler_j.transform(j)
+
+    c = compute_cosine_features(X)
+    c = scaler_c.transform(c)
+
+    emb = np.array([sentence_to_vec(s) for s in sentences])
+    g = compute_glove_features(emb)
+    g = scaler_g.transform(g)
+
+    X_final = hstack([X, j, c, g])
+
+    probs = clf.predict_proba(X_final)[:,1]
+
+    return probs
