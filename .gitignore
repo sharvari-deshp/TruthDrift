@@ -1,4 +1,10 @@
-# GloVe embeddings (too large)
+# Model artifacts
+*.pkl
+
+# Dataset files
+Datasets/
+
+# GloVe embeddings
 Datasets/glove.6B.50d.txt
 
 # Byte-compiled / optimized / DLL files
