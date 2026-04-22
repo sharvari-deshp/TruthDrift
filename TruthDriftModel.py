@@ -239,7 +239,6 @@ pickle.dump(refutes_centroid_g, open("refutes_centroid_g.pkl", "wb"))
 
 pickle.dump(glove, open("glove.pkl", "wb"))
 
-print("Saved everything for UI")
 
 
 #PREDICTION FUNCTION FOR UI TO USE
