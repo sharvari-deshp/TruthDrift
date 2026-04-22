@@ -146,7 +146,8 @@ def load_glove_filtered(path, sentences):
             values = line.split()
             word = values[0]
             
-            if word in vocab:   # ONLY keep needed words
+            #only keep the most necessary words in the file to remove time constraints
+            if word in vocab:
                 vector = np.asarray(values[1:], dtype='float32')
                 embeddings[word] = vector
     
@@ -215,19 +216,26 @@ print("F1:", f1_score(y_test, y_pred))
 
 #save for UI
 pickle.dump(clf, open("model.pkl", "wb"))
+
+
 pickle.dump(vectorizer, open("vectorizer.pkl", "wb"))
+
+
 pickle.dump(scaler_j, open("scaler_j.pkl", "wb"))
 pickle.dump(scaler_c, open("scaler_c.pkl", "wb"))
 pickle.dump(scaler_g, open("scaler_g.pkl", "wb"))
 
+
 pickle.dump(supports_tokens, open("supports_tokens.pkl", "wb"))
 pickle.dump(refutes_tokens, open("refutes_tokens.pkl", "wb"))
 
+
 pickle.dump(supports_centroid, open("supports_centroid.pkl", "wb"))
 pickle.dump(refutes_centroid, open("refutes_centroid.pkl", "wb"))
-
 pickle.dump(supports_centroid_g, open("supports_centroid_g.pkl", "wb"))
 pickle.dump(refutes_centroid_g, open("refutes_centroid_g.pkl", "wb"))
+
+
 
 pickle.dump(glove, open("glove.pkl", "wb"))
 

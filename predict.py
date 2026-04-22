@@ -94,12 +94,17 @@ def compute_glove_features(embeddings):
 #Ssplit stenences function as user can input multiple sentences from UI
 def split_sentences(text):
     sentences = []
+    
+    text = text.replace('\n', ' ')
+    
     parts = text.split('.')
     
     for s in parts:
         cleaned = s.strip()
+        
         if cleaned != "":
             sentences.append(cleaned)
+    
     return sentences
 
 
