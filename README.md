@@ -87,9 +87,9 @@ Code Fully Written by Author (Sharvari Deshpande):
 - Feature combination and scaling
 - Inference pipeline (predict.py)
 - Graph generation (graphsAnalysis.py)
-- Streamlit UI (app.py)
+- UI for user to add AI generated text(app.py)
 
-External Concepts (Not Code) have been Derived From :
+ML Concepts for Project (Not Code) have been Derived From :
 - TF-IDF and cosine similarity (standard NLP techniques)
 - Logistic regression (scikit-learn documentation)
 - GloVe embeddings (Stanford NLP resources)
