@@ -59,39 +59,29 @@ This will generate:
 
 ## Dataset and Model Requirements
 
-FEVER Dataset:
-Required files:
-- train (1).jsonl
-- shared_task_dev.jsonl
-
-Download .jsonl files from:
-https://fever.ai
-Navigation: Website Link -> Header: 'Datasets' -> FEVER 2018 -> Click on Hyperlinks Titled: (1) Training Dataset, (2) Shared Task Development Dataset (Labelled)
-
-Place both .jsonl files in:
-Datasets/
+FEVER Dataset: Already within the Github Datasets folder. 
 
 GloVe Embeddings:
 Download:
-https://nlp.stanford.edu/data/glove.6B.zip
+https://github.com/stanfordnlp/glove -> Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 300d vectors, 822 MB download): glove.6B.zip
 
-Extract:
+Extract from opened zip file:
 glove.6B.50d.txt
 
-Place in:
+Place that dataset dataset (Ensure title is exactly as above) in:
 Datasets/
 
-## Note on Dataset Availability
+## *Note on Dataset Availability
 
-Datasets and GloVe embeddings are NOT included in this repository because:
+GloVe embeddings specifically NOT included in this repository because:
 - GitHub has a 100MB file size limit
-- These files are too large to store in the repo
+- The GloVe file specifically was too large to store in the repository. 
 
-Users must manually download them using the instructions above.
+Anybody interested in using TruthDrift must manually download the file and place it in the Datasets folder using the instructions above.
 
 ## Code Authorship and Attribution
 
-Fully Written by Author:
+Code Fully Written by Author (Sharvari Deshpande):
 - Feature engineering (TF-IDF, Jaccard similarity, cosine similarity, GloVe embeddings)
 - Logistic regression training pipeline
 - Feature combination and scaling
@@ -99,12 +89,12 @@ Fully Written by Author:
 - Graph generation (graphsAnalysis.py)
 - Streamlit UI (app.py)
 
-External Concepts (Not Code):
+External Concepts (Not Code) have been Derived From :
 - TF-IDF and cosine similarity (standard NLP techniques)
 - Logistic regression (scikit-learn documentation)
 - GloVe embeddings (Stanford NLP resources)
 
-No code was copied from external repositories.
+There was no code that was copied from external repositories.
 
 ## Reproducibility
 
@@ -114,7 +104,7 @@ To reproduce results:
 3. Run graph analysis
 4. Run UI
 
-All outputs are generated locally.
+All outputs will be generated locally.
 
 ## Limitations
 
