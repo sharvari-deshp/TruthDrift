@@ -101,7 +101,7 @@ There was no code that was copied from external repositories.
 
 ## Reproducibility
 
-To reproduce results (Stated in more detail within header titled: "How to Run the Project"):
+To get the same results (Stated in more detail within header titled: "How to Run the Project"):
 1. Download datasets and embeddings
 2. Run training script
 3. Run graph analysis
