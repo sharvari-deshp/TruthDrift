@@ -67,10 +67,10 @@ Download:
 Go to: 
 1) https://github.com/stanfordnlp/glove 
 2) Scroll down to README within the GitHub Repository link, and stop at header titled "Download pre-trained word vectors **NEW 2024 VECTORS**"
-3) Click on hyper-link titled glove.6B.zip (Located on the bullet point with text stating "Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 300d vectors, 822 MB download)")
+3) Click on hyper-link titled "glove.6B.zip" (Located on the bullet point with text stating "Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 300d vectors, 822 MB download)")
 
 Extract the following .txt file from opened zip file:
-glove.6B.50d.txt
+**glove.6B.50d.txt**
 
 Drop the following .txt file into the folder in this GitHub repo (TruthDrift) titled "Datasets" (Ensure title of .txt file is exactly as above).
 
