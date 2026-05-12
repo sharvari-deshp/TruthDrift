@@ -49,7 +49,7 @@ with open("Datasets/shared_task_dev.jsonl", "r") as parse:
 
 #FEATURE 1: TF-IDF DATA
 #features have been reduced to 3000 
-vectorizer = TfidfVectorizer(max_features=3000, ngram_range=(1,2))
+vectorizer = TfidfVectorizer(max_features=10000, ngram_range=(1,2))
 
 X_train = vectorizer.fit_transform(trainSentence)
 X_test = vectorizer.transform(testSentence)
@@ -132,82 +132,19 @@ scaler_c = StandardScaler()
 cosine_train = scaler_c.fit_transform(cosine_train)
 cosine_test = scaler_c.transform(cosine_test)
 
-#FEATURE 4: SEMANTIC SIMILARITY 
-# #other features lack semantic similarity, so might be useful to import and incorporate to improve accuracy
-def load_glove_filtered(path, sentences):
-    vocab = set()
-    for s in sentences:
-        vocab.update(s.lower().split())
-    
-    embeddings = {}
-    
-    with open(path, 'r', encoding='utf-8') as f:
-        for line in f:
-            values = line.split()
-            word = values[0]
-            
-            #only keep the most necessary words in the file to remove time constraints
-            if word in vocab:
-                vector = np.asarray(values[1:], dtype='float32')
-                embeddings[word] = vector
-    
-    return embeddings
-
-glove = load_glove_filtered("Datasets/glove.6B.50d.txt", trainSentence)
-EMBED_DIM = 50
-
-
-def sentence_to_vec(sentence):
-    words = sentence.lower().split()
-    vectors = [glove[w] for w in words if w in glove]
-    
-    if len(vectors) == 0:
-        return np.zeros(EMBED_DIM)
-    
-    return np.mean(vectors, axis=0)
-
-
-train_emb = np.array([sentence_to_vec(s) for s in trainSentence])
-test_emb = np.array([sentence_to_vec(s) for s in testSentence])
-
-
-supports_emb = train_emb[supports_indices]
-refutes_emb = train_emb[refutes_indices]
-
-supports_centroid_g = np.mean(supports_emb, axis=0).reshape(1, -1)
-refutes_centroid_g = np.mean(refutes_emb, axis=0).reshape(1, -1)
-
-
-def compute_glove_features(embeddings):
-    sim_support = cosine_similarity(embeddings, supports_centroid_g)
-    sim_refute = cosine_similarity(embeddings, refutes_centroid_g)
-    
-    diff = sim_support - sim_refute
-    
-    return np.hstack([sim_support, sim_refute, diff])
-
-
-glove_train = compute_glove_features(train_emb)
-glove_test = compute_glove_features(test_emb)
-
-scaler_g = StandardScaler()
-glove_train = scaler_g.fit_transform(glove_train)
-glove_test = scaler_g.transform(glove_test)
-
 
 #combine following features 
-X_train_combined = hstack([X_train, jaccard_train, cosine_train, glove_train])
-X_test_combined = hstack([X_test, jaccard_test, cosine_test, glove_test])
+X_train_combined = hstack([X_train, jaccard_train, cosine_train])
+X_test_combined = hstack([X_test, jaccard_test, cosine_test])
 
 #train model utilizing logistic regression 
-clf = LogisticRegression(max_iter=500, solver='saga', C=1.0)
+clf = LogisticRegression(max_iter=10000, solver='saga', C=1.0)
 clf.fit(X_train_combined, y_train)
 
-#use probabilities instead of predicition - runtime's faster
-y_probs = clf.predict_proba(X_test_combined)[:,1]
+y_pred = clf.predict(X_test_combined)
 
 #threshold to also optimize f1 score accuracy
-y_pred = (y_probs > 0.4).astype(int)
+y_pred = (y_pred > 0.4).astype(int)
 
 
 #print out statisitcs/results to compare best features
@@ -217,28 +154,16 @@ print("F1:", f1_score(y_test, y_pred))
 #save for UI
 pickle.dump(clf, open("model.pkl", "wb"))
 
-
 pickle.dump(vectorizer, open("vectorizer.pkl", "wb"))
-
 
 pickle.dump(scaler_j, open("scaler_j.pkl", "wb"))
 pickle.dump(scaler_c, open("scaler_c.pkl", "wb"))
-pickle.dump(scaler_g, open("scaler_g.pkl", "wb"))
-
 
 pickle.dump(supports_tokens, open("supports_tokens.pkl", "wb"))
 pickle.dump(refutes_tokens, open("refutes_tokens.pkl", "wb"))
 
-
 pickle.dump(supports_centroid, open("supports_centroid.pkl", "wb"))
 pickle.dump(refutes_centroid, open("refutes_centroid.pkl", "wb"))
-pickle.dump(supports_centroid_g, open("supports_centroid_g.pkl", "wb"))
-pickle.dump(refutes_centroid_g, open("refutes_centroid_g.pkl", "wb"))
-
-
-
-pickle.dump(glove, open("glove.pkl", "wb"))
-
 
 
 #PREDICTION FUNCTION FOR UI TO USE
@@ -251,11 +176,7 @@ def predict_text(sentences):
     c = compute_cosine_features(X)
     c = scaler_c.transform(c)
 
-    emb = np.array([sentence_to_vec(s) for s in sentences])
-    g = compute_glove_features(emb)
-    g = scaler_g.transform(g)
-
-    X_final = hstack([X, j, c, g])
+    X_final = hstack([X, j, c])
 
     probs = clf.predict_proba(X_final)[:,1]
 

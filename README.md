@@ -8,7 +8,6 @@ The model combines:
 - TF-IDF (lexical features)
 - Jaccard similarity (word overlap)
 - Cosine similarity (centroid similarity)
-- GloVe embeddings (semantic similarity)
 
 A Streamlit UI then allows users to input text and receive predictions with confidence scores for each sentence that they type in.
 
@@ -18,7 +17,6 @@ TruthDrift/
 - TruthDriftModel.py - Training Pipeline for Hallucination Detection
 - predict.py - Inference pipeline used by UI to detect inputted sentences
 - app.py - Code to launch Streamlit user interface
-- graphsAnalysis.py - Generates graphs (Graph 1: accuracy and F1 scores, Graph 2: confusion matrix)
 - requirements.txt - Dependencies or software/libraries that need to be imported
 - README.md - Project documentation and setup details
 
@@ -50,37 +48,9 @@ streamlit run app.py
 
 Then enter the following link in your browser: http://localhost:8501
 
-Step 3 — Generate Graphs
-python graphsAnalysis.py
-
-This will generate:
-- accuracy_f1_graph.png (Provides accuracy and f1 scores for 4 feature combinations used in model.)
-- confusion_matrix.png (Summarizing the full model’s performance via showing how many predictions were correct and incorrect across each class.)
-
 ## Dataset and Model Requirements
 
 FEVER Dataset: Version utilized is already provided within the Github Datasets folder. 
-
-GloVe Embeddings:
-Download:
-
-Go to: 
-1) https://github.com/stanfordnlp/glove 
-2) Scroll down to README within the GitHub Repository link, and stop at header titled "Download pre-trained word vectors **NEW 2024 VECTORS**"
-3) Click on hyper-link titled "glove.6B.zip" (Located on the bullet point with text stating "Wikipedia 2014 + Gigaword 5 (6B tokens, 400K vocab, uncased, 300d vectors, 822 MB download)")
-
-Extract the following .txt file from opened zip file:
-**glove.6B.50d.txt**
-
-Drop the following .txt file into the folder in this GitHub repo (TruthDrift) titled "Datasets" (Ensure title of .txt file is exactly as above).
-
-## *Note on Dataset Availability
-
-GloVe embeddings dataset was specifically NOT included in this repository because:
-- GitHub has a 100MB file size limit
-- The GloVe file specifically was too large to store in the repository. 
-
-Anybody interested in utilizing the TruthDrift platform must manually download the file and place it in the Datasets folder using the instructions above.
 
 ## Code Authorship and Attribution
 
@@ -95,17 +65,15 @@ Anybody interested in utilizing the TruthDrift platform must manually download t
 **ML Concepts for Project (Not Code) have been Derived From:**
 - TF-IDF and cosine similarity (standard NLP techniques)
 - Logistic regression (scikit-learn documentation)
-- GloVe embeddings (Stanford NLP resources)
 
 There was no code that was copied from external repositories.
 
 ## Reproducibility
 
 To get the same results (Stated in more detail within header titled: "How to Run the Project"):
-1. Download datasets and embeddings
+1. Download requirements.txt (if necessary)
 2. Run training script
-3. Run graph analysis
-4. Run UI
+3. Run UI
 
 All outputs will be generated locally.
 

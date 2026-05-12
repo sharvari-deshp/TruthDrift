@@ -24,19 +24,6 @@ refutes_centroid_g = pickle.load(open("refutes_centroid_g.pkl", "rb"))
 
 glove = pickle.load(open("glove.pkl", "rb"))
 
-#embed dimensions of the glove data w/i datasets folder of code
-EMBED_DIM = 50
-
-
-#FEATURE 4: SEMANTIC SIMILARITY
-def sentence_to_vec(sentence):
-    words = sentence.lower().split()
-    vectors = [glove[w] for w in words if w in glove]
-    
-    if len(vectors) == 0:
-        return np.zeros(EMBED_DIM)
-    return np.mean(vectors, axis=0)
-
 
 #FEATURE 2: JACCARD SIMILARITY
 def compute_jaccard_features(sentences):
@@ -120,15 +107,7 @@ def predict_text(sentences):
     c = compute_cosine_features(X)
     c = scaler_c.transform(c)
 
-    emb = np.array([sentence_to_vec(s) for s in sentences])
-    g = compute_glove_features(emb)
-    g = scaler_g.transform(g)
-
-    
-
-
-
-    X_final = hstack([X, j, c, g])
+    X_final = hstack([X, j, c])
 
     probs = clf.predict_proba(X_final)[:,1]
 
